@@ -31,6 +31,7 @@ function getConfig() {
 app.use(express.json());
 
 app.use("/version", routerVersion);
+app.use(`${urlPrefix}/version`, routerVersion);
 app.use(`${nativePrefix}/version`, routerVersion);
 app.use(`${prefix}/version`, routerVersion);
 routerVersion.get("/", (req, res) => {
@@ -46,6 +47,7 @@ routerVersion.get("/", (req, res) => {
 });
 
 app.use("/config", routerConfig);
+app.use(`${urlPrefix}/config`, routerConfig);
 app.use(`${nativePrefix}/config`, routerConfig);
 app.use(`${prefix}/config`, routerConfig);
 routerConfig.get("/", (req, res) => {
@@ -60,6 +62,8 @@ routerConfig.get("/", (req, res) => {
 });
 
 app.use("/", express.static(public));
+app.use(urlPrefix, express.static(public));
+app.use(nativePrefix, express.static(public));
 app.use(prefix, express.static(public));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(public, "index.html"));
